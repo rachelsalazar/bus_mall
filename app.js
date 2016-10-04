@@ -1,6 +1,7 @@
 'use strict';
 
 var unorderedList = document.getElementById('unordered-list');
+var imageContainer = document.getElementById('image-container');
 var allImages = [];
 
 //Product constructor function
@@ -61,19 +62,10 @@ function render() {
   }
   left.src = allImages[leftIndex].filePath;
   allImages[leftIndex].numTimesShown += 1;
-  if (left) {
-    allImages[leftIndex].numTimesClicked += 1;
-  }
   center.src = allImages[centerIndex].filePath;
   allImages[centerIndex].numTimesShown += 1;
-  if (center) {
-    allImages[centerIndex].numTimesClicked += 1;
-  }
   right.src = allImages[rightIndex].filePath;
   allImages[rightIndex].numTimesShown += 1;
-  if (right) {
-    allImages[rightIndex].numTimesClicked += 1;
-  }
 };
 
 //displaying results for the user
@@ -89,16 +81,24 @@ var displayResults = function() {
 var userClicks = function() {
   onclick = counter++;
   console.log(counter);
+  if (event.target.id === 'image-container') {
+    return alert('Click on an image, dummy!');
+  }
+  if (event.target.id === 'left') {
+    allImages[leftIndex].numTimesClicked += 1;
+  }
+  if (event.target.id === 'center') {
+    allImages[centerIndex].numTimesClicked += 1;
+  }
+  if (event.target.id === 'right') {
+    allImages[rightIndex].numTimesClicked += 1;
+  }
   if (counter > 24) {
     displayResults();
-    left.removeEventListener('click', userClicks);
-    center.removeEventListener('click', userClicks);
-    right.removeEventListener('click', userClicks);
+    imageContainer.removeEventListener('click', userClicks);
   }
   render();
 };
 
 //event listener
-left.addEventListener('click', userClicks);
-center.addEventListener('click', userClicks);
-right.addEventListener('click', userClicks);
+imageContainer.addEventListener('click', userClicks);
