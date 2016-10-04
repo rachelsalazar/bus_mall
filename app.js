@@ -3,6 +3,7 @@
 var imageContainer = document.getElementById('image-container');
 var allImages = [];
 
+//Product constructor function
 function Product(productName, filePath, numTimesShown){
   this.productName = productName;
   this.filePath = filePath;
@@ -11,6 +12,7 @@ function Product(productName, filePath, numTimesShown){
   allImages.push(this);
 };
 
+//adding all images
 new Product('bag', 'images/bag.jpg', 0);
 new Product('banana', 'images/banana.jpg', 0);
 new Product('bathroom', 'images/bathroom.jpg', 0);
@@ -53,7 +55,7 @@ function render() {
     }
   };
   randomIndex();
-//making sure there are no duplicate images
+//checking for duplicate images
   while ((leftIndex === centerIndex) || (centerIndex === rightIndex) || (leftIndex === rightIndex)) {
     randomIndex();
   }
@@ -65,6 +67,7 @@ function render() {
 
 };
 
+//event handler
 var userClicks = function() {
   onclick = counter++;
   if (counter > 24) {
@@ -73,4 +76,5 @@ var userClicks = function() {
   render();
 };
 
+//event listener
 imageContainer.addEventListener('click', userClicks);
