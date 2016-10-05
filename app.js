@@ -175,7 +175,6 @@ var userClicks = function() {
 imageContainer.addEventListener('click', userClicks);
 boringList.addEventListener('click', displayList);
 chartList.addEventListener('click', displayChartResults);
-unorderedList.addEventListener('click', hideList);
 
 //**********************
 // making chart.js
