@@ -94,11 +94,11 @@ function updatePreviousArray() {
 //displaying results for the user
 var displayResults = function() {
   updateBusMallArray();
-  for (var i = 0; i < allImages.length; i++) {
-    var listItem = document.createElement('li');
-    listItem.textContent = allImages[i].numTimesClicked + ' votes for ' + allImages[i].productName;
-    unorderedList.appendChild(listItem);
-  }
+  // for (var i = 0; i < allImages.length; i++) {
+  //   var listItem = document.createElement('li');
+  //   listItem.textContent = allImages[i].numTimesClicked + ' votes for ' + allImages[i].productName;
+  //   unorderedList.appendChild(listItem);
+  // }
   displayChart();
 };
 
@@ -109,7 +109,7 @@ function updateRemainingVotes() {
   console.log(votecounter);
   votesRemaining.innerHTML = '';
   var paragraph = document.createElement('p');
-  paragraph.textContent = 'You have ' + votecounter + ' votes remaining';
+  paragraph.textContent = 'You have ' + votecounter + ' Votes Remaining';
   votesRemaining.appendChild(paragraph);
 };
 
