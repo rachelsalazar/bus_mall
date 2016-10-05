@@ -17,6 +17,17 @@ p {
   font-family: sans-serif;
 }
 
+#unordered-list {
+  list-style: none;
+  font-family: sans-serif;
+  color: #66b3ff;
+  /*margin-top: -300px;*/
+}
+
+li {
+  display: inline-block;
+}
+
 #votes-remaining p {
   margin: 0 auto;
   border: 2px solid #b3d9ff;
@@ -35,4 +46,15 @@ p {
 
 #right {
   margin-right: 0px;
+}
+
+#buttons {
+  text-align: center;
+}
+
+#buttons div {
+  margin-top: 35px;
+  display: inline-block;
+  margin-left: 30px;
+  margin-right: 30px;
 }

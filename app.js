@@ -3,6 +3,8 @@
 var unorderedList = document.getElementById('unordered-list');
 var imageContainer = document.getElementById('image-container');
 var votesRemaining = document.getElementById('votes-remaining');
+var boringList = document.getElementById('list-button');
+var chartList = document.getElementById('chart-button');
 
 var allImages = [];
 var newImages = [];
@@ -91,18 +93,37 @@ function updatePreviousArray() {
   previousImages.push(leftIndex, centerIndex, rightIndex);
 };
 
-//displaying results for the user
-var displayResults = function() {
+//function to display list
+var displayList = function() {
+  for (var i = 0; i < allImages.length; i++) {
+    var listItem = document.createElement('li');
+    listItem.textContent = allImages[i].numTimesClicked + ' votes for ' + allImages[i].productName + '__';
+    unorderedList.appendChild(listItem);
+  }
+};
+
+// buttons for results
+var listButton = function() {
+  var newButton = document.createElement('button');
+  var t = document.createTextNode('Display Boring List');
+  newButton.appendChild(t);
+  boringList.appendChild(newButton);
+};
+
+var chartButton = function() {
+  var newButton = document.createElement('button');
+  var t = document.createTextNode('Display AWESOME Chart');
+  newButton.appendChild(t);
+  chartList.appendChild(newButton);
+};
+
+// displaying results for the user
+var displayChartResults = function() {
   updateBusMallArray();
-  // for (var i = 0; i < allImages.length; i++) {
-  //   var listItem = document.createElement('li');
-  //   listItem.textContent = allImages[i].numTimesClicked + ' votes for ' + allImages[i].productName;
-  //   unorderedList.appendChild(listItem);
-  // }
   displayChart();
 };
 
-
+//countdown on votes
 var votecounter = 25;
 function updateRemainingVotes() {
   votecounter = votecounter - 1;
@@ -142,14 +163,19 @@ var userClicks = function() {
 
   //stopping votes
   if (counter > 24) {
-    displayResults();
     imageContainer.removeEventListener('click', userClicks);
+    listButton();
+    chartButton();
+    // displayResults();
   }
   render();
 };
 
 //event listener
 imageContainer.addEventListener('click', userClicks);
+boringList.addEventListener('click', displayList);
+chartList.addEventListener('click', displayChartResults);
+unorderedList.addEventListener('click', hideList);
 
 //**********************
 // making chart.js
@@ -157,7 +183,7 @@ imageContainer.addEventListener('click', userClicks);
 
 function displayChart() {
   var ctx = document.getElementById('busmall-chart').getContext('2d');
-  var myChart = new Chart(ctx, {
+  new Chart(ctx, {
     type: 'bar',
     data: {
       labels: products,
