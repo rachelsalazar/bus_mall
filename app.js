@@ -2,6 +2,10 @@
 
 var unorderedList = document.getElementById('unordered-list');
 var imageContainer = document.getElementById('image-container');
+var votesRemaining = document.getElementById('votes-remaining');
+var boringList = document.getElementById('list-button');
+var chartList = document.getElementById('chart-button');
+
 var allImages = [];
 var newImages = [];
 var previousImages = [];
@@ -46,6 +50,16 @@ var centerIndex;
 var rightIndex;
 var counter = 0;
 
+//titles for chart
+var products = [];
+var clicks = [];
+
+function updateBusMallArray() {
+  for (var i = 0; i < allImages.length; i++) {
+    products[i] = allImages[i].productName;
+    clicks[i] = allImages[i].numTimesClicked;
+  }
+}
 
 render();
 
@@ -79,19 +93,53 @@ function updatePreviousArray() {
   previousImages.push(leftIndex, centerIndex, rightIndex);
 };
 
-//displaying results for the user
-var displayResults = function() {
+//function to display list
+var displayList = function() {
   for (var i = 0; i < allImages.length; i++) {
     var listItem = document.createElement('li');
-    listItem.textContent = allImages[i].numTimesClicked + ' votes for ' + allImages[i].productName;
+    listItem.textContent = allImages[i].numTimesClicked + ' votes for ' + allImages[i].productName + '__';
     unorderedList.appendChild(listItem);
   }
+};
+
+// buttons for results
+var listButton = function() {
+  var newButton = document.createElement('button');
+  var t = document.createTextNode('Display Boring List');
+  newButton.appendChild(t);
+  boringList.appendChild(newButton);
+};
+
+var chartButton = function() {
+  var newButton = document.createElement('button');
+  var t = document.createTextNode('Display AWESOME Chart');
+  newButton.appendChild(t);
+  chartList.appendChild(newButton);
+};
+
+// displaying results for the user
+var displayChartResults = function() {
+  updateBusMallArray();
+  displayChart();
+};
+
+//countdown on votes
+var votecounter = 25;
+function updateRemainingVotes() {
+  votecounter = votecounter - 1;
+  console.log(votecounter);
+  votesRemaining.innerHTML = '';
+  var paragraph = document.createElement('p');
+  paragraph.textContent = 'You have ' + votecounter + ' Votes Remaining';
+  votesRemaining.appendChild(paragraph);
 };
 
 //event handler
 var userClicks = function() {
   onclick = counter++;
   console.log('The user has clicked ' + counter + ' times.');
+
+  updateRemainingVotes();
 
   //if container is clicked
   if (event.target.id === 'image-container') {
@@ -115,11 +163,88 @@ var userClicks = function() {
 
   //stopping votes
   if (counter > 24) {
-    displayResults();
     imageContainer.removeEventListener('click', userClicks);
+    listButton();
+    chartButton();
+    // displayResults();
   }
   render();
 };
 
 //event listener
 imageContainer.addEventListener('click', userClicks);
+boringList.addEventListener('click', displayList);
+chartList.addEventListener('click', displayChartResults);
+unorderedList.addEventListener('click', hideList);
+
+//**********************
+// making chart.js
+//**********************
+
+function displayChart() {
+  var ctx = document.getElementById('busmall-chart').getContext('2d');
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: products,
+      datasets: [{
+        label: 'VOTES',
+        data: clicks,
+        backgroundColor: [
+          'rgb(27, 153, 139)',
+          'rgb(255, 253, 130)',
+          'rgb(241, 156, 121)',
+          'rgb(232, 72, 85)',
+          'rgb(74, 80, 130)',
+          'rgb(66, 244, 158)',
+          'rgb(66, 244, 235)',
+          'rgb(66, 119, 244)',
+          'rgb(76, 12, 58)',
+          'rgb(232, 58, 92)',
+          'rgb(27, 153, 139)',
+          'rgb(255, 253, 130)',
+          'rgb(241, 156, 121)',
+          'rgb(232, 72, 85)',
+          'rgb(74, 80, 130)',
+          'rgb(66, 244, 158)',
+          'rgb(66, 244, 235)',
+          'rgb(66, 119, 244)',
+          'rgb(76, 12, 58)',
+          'rgb(232, 58, 92)'
+        ],
+        borderColor: [
+          'rgb(27, 153, 139)',
+          'rgb(255, 253, 130)',
+          'rgb(241, 156, 121)',
+          'rgb(232, 72, 85)',
+          'rgb(74, 80, 130)',
+          'rgb(66, 244, 158)',
+          'rgb(66, 244, 235)',
+          'rgb(66, 119, 244)',
+          'rgb(76, 12, 58)',
+          'rgb(232, 58, 92)',
+          'rgb(27, 153, 139)',
+          'rgb(255, 253, 130)',
+          'rgb(241, 156, 121)',
+          'rgb(232, 72, 85)',
+          'rgb(74, 80, 130)',
+          'rgb(66, 244, 158)',
+          'rgb(66, 244, 235)',
+          'rgb(66, 119, 244)',
+          'rgb(76, 12, 58)',
+          'rgb(232, 58, 92)'
+        ],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero:true
+          }
+        }]
+      }
+    }
+  });
+}

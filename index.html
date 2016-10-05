@@ -3,16 +3,24 @@
   <head>
     <title>BusMall Market Analysis</title>
     <link rel="stylesheet" href="style.css"></link>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.3.0/Chart.min.js"></script>
   </head>
   <body>
     <h1>BusMall Market Analysis</h1>
+    <p>Out of the three images please vote which ones you'd be most likely to purchase.</p>
+    <section id="votes-remaining"></section>
     <section id="image-container">
       <img id="left" src="">
       <img id="center" src="">
       <img id="right" src="">
     </section>
+    <section id="buttons">
+      <div id="list-button"></div>
+      <div id="chart-button"></div>
+    </section>
     <ul id="unordered-list">
     </ul>
+    <canvas id="busmall-chart" width="960" height="200px"></canvas>
     <script src="app.js"></script>
   </body>
 </html>
