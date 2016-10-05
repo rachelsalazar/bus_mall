@@ -2,6 +2,8 @@
 
 var unorderedList = document.getElementById('unordered-list');
 var imageContainer = document.getElementById('image-container');
+var votesRemaining = document.getElementById('votes-remaining');
+
 var allImages = [];
 var newImages = [];
 var previousImages = [];
@@ -46,6 +48,16 @@ var centerIndex;
 var rightIndex;
 var counter = 0;
 
+//titles for chart
+var products = [];
+var clicks = [];
+
+function updateBusMallArray() {
+  for (var i = 0; i < allImages.length; i++) {
+    products[i] = allImages[i].productName;
+    clicks[i] = allImages[i].numTimesClicked;
+  }
+}
 
 render();
 
@@ -81,17 +93,32 @@ function updatePreviousArray() {
 
 //displaying results for the user
 var displayResults = function() {
+  updateBusMallArray();
   for (var i = 0; i < allImages.length; i++) {
     var listItem = document.createElement('li');
     listItem.textContent = allImages[i].numTimesClicked + ' votes for ' + allImages[i].productName;
     unorderedList.appendChild(listItem);
   }
+  displayChart();
+};
+
+
+var votecounter = 25;
+function updateRemainingVotes() {
+  votecounter = votecounter - 1;
+  console.log(votecounter);
+  votesRemaining.innerHTML = '';
+  var paragraph = document.createElement('p');
+  paragraph.textContent = 'You have ' + votecounter + ' votes remaining';
+  votesRemaining.appendChild(paragraph);
 };
 
 //event handler
 var userClicks = function() {
   onclick = counter++;
   console.log('The user has clicked ' + counter + ' times.');
+
+  updateRemainingVotes();
 
   //if container is clicked
   if (event.target.id === 'image-container') {
@@ -123,3 +150,75 @@ var userClicks = function() {
 
 //event listener
 imageContainer.addEventListener('click', userClicks);
+
+//**********************
+// making chart.js
+//**********************
+
+function displayChart() {
+  var ctx = document.getElementById('busmall-chart').getContext('2d');
+  var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: products,
+      datasets: [{
+        label: 'VOTES',
+        data: clicks,
+        backgroundColor: [
+          'rgb(27, 153, 139)',
+          'rgb(255, 253, 130)',
+          'rgb(241, 156, 121)',
+          'rgb(232, 72, 85)',
+          'rgb(74, 80, 130)',
+          'rgb(66, 244, 158)',
+          'rgb(66, 244, 235)',
+          'rgb(66, 119, 244)',
+          'rgb(76, 12, 58)',
+          'rgb(232, 58, 92)',
+          'rgb(27, 153, 139)',
+          'rgb(255, 253, 130)',
+          'rgb(241, 156, 121)',
+          'rgb(232, 72, 85)',
+          'rgb(74, 80, 130)',
+          'rgb(66, 244, 158)',
+          'rgb(66, 244, 235)',
+          'rgb(66, 119, 244)',
+          'rgb(76, 12, 58)',
+          'rgb(232, 58, 92)'
+        ],
+        borderColor: [
+          'rgb(27, 153, 139)',
+          'rgb(255, 253, 130)',
+          'rgb(241, 156, 121)',
+          'rgb(232, 72, 85)',
+          'rgb(74, 80, 130)',
+          'rgb(66, 244, 158)',
+          'rgb(66, 244, 235)',
+          'rgb(66, 119, 244)',
+          'rgb(76, 12, 58)',
+          'rgb(232, 58, 92)',
+          'rgb(27, 153, 139)',
+          'rgb(255, 253, 130)',
+          'rgb(241, 156, 121)',
+          'rgb(232, 72, 85)',
+          'rgb(74, 80, 130)',
+          'rgb(66, 244, 158)',
+          'rgb(66, 244, 235)',
+          'rgb(66, 119, 244)',
+          'rgb(76, 12, 58)',
+          'rgb(232, 58, 92)'
+        ],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero:true
+          }
+        }]
+      }
+    }
+  });
+}
